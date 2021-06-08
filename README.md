@@ -4,7 +4,7 @@ This programm should calculated the percentage of area missing due to herbivory 
 
 For the detection of the original outline of the leave and the detection of holes missing roughly the same functions should be applied using different inputs.
 
-Ideas:
+## Ideas:
 
 * adjustment of histogramm (cv2.equalizeHist(image) ) [ ]
 * blurring and threshold binary to get clean edge (gaussian, bitwise_and, ??) [ ]
