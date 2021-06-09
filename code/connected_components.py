@@ -41,16 +41,32 @@ plt.imshow(src_gray, "Greys")
 
 ## treshold binary 
 
-ret,thresh1 = cv2.threshold(img_gray,127,255,cv2.THRESH_BINARY)
+ret,thresh1 = cv2.threshold(maskBGR,80,255,cv2.THRESH_BINARY)
+plt.imshow(thresh1)
 
+th3 = cv2.adaptiveThreshold(maskBGR,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,\
+            cv2.THRESH_BINARY,11,2)
+
+img = cv2.medianBlur(maskBGR,5)
+ret,th1 = cv2.threshold(img,127,255,cv2.THRESH_BINARY)
+th2 = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_MEAN_C,\
+            cv2.THRESH_BINARY,11,2)
+th3 = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,\
+            cv2.THRESH_BINARY,11,2)
+titles = ['Original Image', 'Global Thresholding (v = 127)',
+            'Adaptive Mean Thresholding', 'Adaptive Gaussian Thresholding']
+images = [img, th1, th2, th3]
+for i in range(4):
+    plt.subplot(2,2,i+1),plt.imshow(images[i],'gray')
+    plt.title(titles[i])
+    plt.xticks([]),plt.yticks([])
+plt.show()  
+    
 
 #detect edge using canny
 threshold = 238
-canny_output = cv2.Canny(maskBGR, threshold, threshold * 2)
-plt.imshow(canny_output)
-
-
-
+canny_output = cv2.Canny(th3, threshold, threshold * 2)
+plt.imshow(canny_output, "Greys")
 
 
 
