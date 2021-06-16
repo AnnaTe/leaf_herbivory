@@ -19,3 +19,4 @@ For the detection of the original outline of the leave and the detection of hole
 ### try out:
 
 * contour area from OpenCV [ ]
+
