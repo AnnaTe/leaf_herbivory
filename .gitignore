@@ -1,0 +1,12 @@
+images/output/*
+images/raw/*
+images/testimages/*
+images/compressed/*
+images/Herbivory_crop/*
+images/Leaves/*
+images/cropped/*
+images/output-cropped_2/*
+images/output_herb_2/*
+images/raw_AAE/*
+filter/development/*
+filter/__pycache__/*
