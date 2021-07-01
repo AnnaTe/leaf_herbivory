@@ -2,13 +2,11 @@
 
 # Form implementation generated from reading ui file 'designer.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.3
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -144,6 +142,12 @@ class Ui_MainWindow(object):
         self.cbMask = QtWidgets.QCheckBox(self.tab_example)
         self.cbMask.setObjectName("cbMask")
         self.verticalLayout.addWidget(self.cbMask)
+        self.cbErosion = QtWidgets.QCheckBox(self.tab_example)
+        self.cbErosion.setObjectName("cbErosion")
+        self.verticalLayout.addWidget(self.cbErosion)
+        self.cbFilled = QtWidgets.QCheckBox(self.tab_example)
+        self.cbFilled.setObjectName("cbFilled")
+        self.verticalLayout.addWidget(self.cbFilled)
         self.cbContours = QtWidgets.QCheckBox(self.tab_example)
         self.cbContours.setObjectName("cbContours")
         self.verticalLayout.addWidget(self.cbContours)
@@ -266,41 +270,25 @@ class Ui_MainWindow(object):
         self.horizontalLayout_20.setObjectName("horizontalLayout_20")
         self.gridLayout_12 = QtWidgets.QGridLayout()
         self.gridLayout_12.setObjectName("gridLayout_12")
-        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_12.addItem(spacerItem6, 1, 0, 1, 1)
-        self.label_30 = QtWidgets.QLabel(self.layoutWidget)
-        self.label_30.setMinimumSize(QtCore.QSize(120, 0))
-        self.label_30.setMaximumSize(QtCore.QSize(143, 16777215))
-        self.label_30.setObjectName("label_30")
-        self.gridLayout_12.addWidget(self.label_30, 3, 1, 1, 1)
-        self.cbFilledDir = QtWidgets.QCheckBox(self.layoutWidget)
-        self.cbFilledDir.setChecked(False)
-        self.cbFilledDir.setObjectName("cbFilledDir")
-        self.gridLayout_12.addWidget(self.cbFilledDir, 1, 1, 1, 1)
-        self.sbConvexDir = QtWidgets.QSpinBox(self.layoutWidget)
-        self.sbConvexDir.setMinimumSize(QtCore.QSize(85, 0))
-        self.sbConvexDir.setMaximumSize(QtCore.QSize(85, 16777215))
-        self.sbConvexDir.setPrefix("")
-        self.sbConvexDir.setMinimum(0)
-        self.sbConvexDir.setMaximum(20)
-        self.sbConvexDir.setSingleStep(5)
-        self.sbConvexDir.setProperty("value", 0)
-        self.sbConvexDir.setDisplayIntegerBase(10)
-        self.sbConvexDir.setObjectName("sbConvexDir")
-        self.gridLayout_12.addWidget(self.sbConvexDir, 3, 2, 1, 1)
-        spacerItem7 = QtWidgets.QSpacerItem(300, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_12.addItem(spacerItem7, 0, 3, 1, 1)
-        self.cbContourDir = QtWidgets.QCheckBox(self.layoutWidget)
-        self.cbContourDir.setObjectName("cbContourDir")
-        self.gridLayout_12.addWidget(self.cbContourDir, 2, 1, 1, 1)
-        self.cbValueDir = QtWidgets.QCheckBox(self.layoutWidget)
-        self.cbValueDir.setChecked(False)
-        self.cbValueDir.setObjectName("cbValueDir")
-        self.gridLayout_12.addWidget(self.cbValueDir, 1, 3, 1, 1)
         self.cbMaskDir = QtWidgets.QCheckBox(self.layoutWidget)
         self.cbMaskDir.setChecked(False)
         self.cbMaskDir.setObjectName("cbMaskDir")
         self.gridLayout_12.addWidget(self.cbMaskDir, 0, 1, 1, 1)
+        self.cbValueDir = QtWidgets.QCheckBox(self.layoutWidget)
+        self.cbValueDir.setChecked(False)
+        self.cbValueDir.setObjectName("cbValueDir")
+        self.gridLayout_12.addWidget(self.cbValueDir, 1, 2, 1, 1)
+        self.cbFilledDir = QtWidgets.QCheckBox(self.layoutWidget)
+        self.cbFilledDir.setChecked(False)
+        self.cbFilledDir.setObjectName("cbFilledDir")
+        self.gridLayout_12.addWidget(self.cbFilledDir, 1, 1, 1, 1)
+        spacerItem6 = QtWidgets.QSpacerItem(300, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_12.addItem(spacerItem6, 0, 2, 1, 1)
+        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_12.addItem(spacerItem7, 1, 0, 1, 1)
+        self.cbContourDir = QtWidgets.QCheckBox(self.layoutWidget)
+        self.cbContourDir.setObjectName("cbContourDir")
+        self.gridLayout_12.addWidget(self.cbContourDir, 2, 1, 1, 1)
         self.horizontalLayout_20.addLayout(self.gridLayout_12)
         self.gridLayout_11.addLayout(self.horizontalLayout_20, 2, 2, 1, 1)
         spacerItem8 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -489,12 +477,12 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Flower Segmentation Tool"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Image Processing Tool"))
         self.label_3.setText(_translate("MainWindow", "Crop Image"))
         self.label.setText(_translate("MainWindow", "Image Size"))
         self.label_13.setText(_translate("MainWindow", " in %"))
@@ -506,7 +494,9 @@ class Ui_MainWindow(object):
         self.label_15.setText(_translate("MainWindow", "Leaf Herbivory"))
         self.cbGreen.setText(_translate("MainWindow", "green segmentation"))
         self.cbMask.setText(_translate("MainWindow", "leaf mask"))
-        self.cbContours.setText(_translate("MainWindow", "leaf contours"))
+        self.cbErosion.setText(_translate("MainWindow", "adjusted mask"))
+        self.cbFilled.setText(_translate("MainWindow", "filled contour"))
+        self.cbContours.setText(_translate("MainWindow", "convex hull"))
         self.pbExport.setText(_translate("MainWindow", "Export"))
         self.pbUpdate.setText(_translate("MainWindow", "Update"))
         self.lineEditImage.setPlaceholderText(_translate("MainWindow", "/home/../image.jpg "))
@@ -518,11 +508,10 @@ class Ui_MainWindow(object):
         self.label_29.setText(_translate("MainWindow", "Export to Directory:"))
         self.pbDirectoryOpen_3.setText(_translate("MainWindow", "Import"))
         self.lineEditDirInLeaf.setPlaceholderText(_translate("MainWindow", "/home/../InputDirectory"))
-        self.label_30.setText(_translate("MainWindow", "convex hull diff"))
+        self.cbMaskDir.setText(_translate("MainWindow", "mask image"))
+        self.cbValueDir.setText(_translate("MainWindow", "value export"))
         self.cbFilledDir.setText(_translate("MainWindow", "filled leaf image"))
         self.cbContourDir.setText(_translate("MainWindow", "contour and convex hull"))
-        self.cbValueDir.setText(_translate("MainWindow", "value export"))
-        self.cbMaskDir.setText(_translate("MainWindow", "mask image"))
         self.pbRun_3.setText(_translate("MainWindow", "Run"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Herbivory"))
         self.lineEditDirOut.setPlaceholderText(_translate("MainWindow", "/home/OutputDirectory"))
@@ -541,4 +530,5 @@ class Ui_MainWindow(object):
         self.actionDirectory.setText(_translate("MainWindow", "Open Folder"))
         self.actionClose.setText(_translate("MainWindow", "Close"))
         self.actionSingle.setText(_translate("MainWindow", "Open Image"))
+
 from gui.pyqt5backend.mplwidget_nav import MplWidget

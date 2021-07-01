@@ -4,12 +4,11 @@ import numpy as np
 
 class Data:
     """This is the Data class that stores the images and the altered copys for fast accessibility."""
-
     def __init__(self, path):
         self.img = self._open(path)
-        #self.cropped = np.copy(self.img)
+        self.cropped = np.copy(self.img)
         self.seg = np.copy(self.img)
-        #self.blob = np.copy(self.cropped)
+        self.erosion = np.copy(self.img)
         self.mask = np.copy(self.img)
         self.filled = np.copy(self.img)
         self.contours = np.copy(self.img)
@@ -20,28 +19,49 @@ class Data:
     def _open(path):
         img = cv2.imread(path)
         return img
-
+    
     def green(self):
+     
         """segmentation of green area in the image """
+        green_mean = np.mean(self.img[:,:,1])
+        
         hls = cv2.cvtColor(self.img,cv2.COLOR_BGR2HLS)
-        self.mask = cv2.inRange(hls, (30,20, 60), (75, 180, 255))
+        
+        if green_mean < 150:
+            img_g = cv2.convertScaleAbs(self.img[:,:,1], alpha=1.1, beta=1.7)
+            img_a = cv2.merge((self.img[:,:,0], img_g, self.img[:,:,2]))
+            hls = cv2.cvtColor(img_a,cv2.COLOR_BGR2HLS)
+        
+        ##brightness analysis
+        brightness = np.mean(hls[:,:,1])
+        if brightness < 100: 
+            bgr = cv2.convertScaleAbs(self.img, alpha=1.1, beta=1.7)
+            hls = cv2.cvtColor(bgr,cv2.COLOR_BGR2HLS)
+
+        self.mask = cv2.inRange(hls, (30, 20, 60), (75, 180, 255))
         self.seg = cv2.bitwise_and(self.img, self.img, mask=self.mask)
         return self.seg
     
-    def herbivory(self):
+    def herbivory(self, correction = 2):
+        dim = self.mask.shape
         
-        smooth_kernel = np.ones((9,9), dtype='uint8')
-        smooth = cv2.morphologyEx(self.mask, cv2.MORPH_CLOSE, smooth_kernel)
+        # make kernel with original size
+        smooth_kernel = np.ones((int(dim[0]/200),int(dim[1]/200)), dtype='uint8')
+        fill_kernel = np.ones((int(dim[0]/10),int(dim[1]/10)), dtype='uint8')
+        
+        # adding white borders
+        new_mask = np.zeros((dim[0]+1000,dim[1]+1000), self.mask.dtype)
+        new_mask[500:dim[0]+500,500:dim[1]+500] = self.mask
+        
+        smooth = cv2.morphologyEx(new_mask, cv2.MORPH_CLOSE, smooth_kernel)
         
         eros_kernel = np.ones((5,5),np.uint8)
-        erosion = cv2.erode(smooth,eros_kernel,iterations = 1)
+        self.erosion = cv2.erode(smooth,eros_kernel,iterations = 1)
         
-        leaf_pxl = np.count_nonzero(erosion)
+        leaf_pxl = np.count_nonzero(smooth)
         
-        fill_kernel = np.ones((100,100), dtype='uint8')
-        self.filled = cv2.morphologyEx(erosion, cv2.MORPH_CLOSE, fill_kernel)
-        
-        
+        self.filled = cv2.morphologyEx(smooth, cv2.MORPH_CLOSE, fill_kernel)
+           
         
         # canny edge detection
         #canny_output = cv2.Canny(self.filled, 0,255)
@@ -58,10 +78,10 @@ class Data:
             hull_list.append(hull)
             area_hull.append(cv2.contourArea(hull))
         
-        self.contours = cv2.cvtColor(erosion, cv2.COLOR_GRAY2BGR)
+        self.contours = cv2.cvtColor(smooth, cv2.COLOR_GRAY2BGR)
         for i in range(len(contours)):
-            cv2.drawContours(self.contours, contours, i,(0,255,0) , 10, cv2.LINE_8, hierarchy, 0)
-            cv2.drawContours(self.contours, hull_list, i,(255,0,255) , 10)
+            cv2.drawContours(self.contours, contours, i,(0,255,0) , 15, cv2.LINE_8, hierarchy, 0)
+            cv2.drawContours(self.contours, hull_list, i,(255,0,255) , 20)
         
         #con_perc = 100-leaf_pxl/max(area_contour)*100
         
@@ -69,8 +89,11 @@ class Data:
 
         #fill_perc = 100-leaf_pxl/np.count_nonzero(self.filled)*100
         
-        return hull_perc
-
+        herb_perc = hull_perc - correction
+        
+        return herb_perc
+        
+    ###########################################################################
     
     def yellow(self, image, lowsize=100):
         """segmentation of yellow area in the image with minimum size of segmented Components"""

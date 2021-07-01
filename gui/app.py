@@ -149,7 +149,7 @@ class DesignerMainWindow(QtWidgets.QMainWindow, Ui_MainWindow, Data):
                 counter += 1
             self.mpl.canvas.draw()
             self.statusbar.showMessage('{} Flowers counted.'.format(counter))
-
+            
 
         elif self.cbYellow.isChecked() == True:
             if percent != self.perc:
@@ -167,19 +167,34 @@ class DesignerMainWindow(QtWidgets.QMainWindow, Ui_MainWindow, Data):
         elif self.cbGreen.isChecked() == True:
             self.i.green()
             self.plot(self.i.seg)
+            
         elif self.cbMask.isChecked() == True:
             self.i.green()
             self.plot(self.i.mask)
-        elif self.cbContours.isChecked() == True:
-            pass
+            
+        elif self.cbErosion.isChecked() == True:
+            self.i.green()
+            self.i.herbivory()
+            self.plot(self.i.erosion)
         
+        elif self.cbFilled.isChecked() == True:
+            self.i.green()
+            self.i.herbivory()
+            self.plot(self.i.filled)
+            
+        elif self.cbContours.isChecked() == True:
+            self.i.green()
+            perc = self.i.herbivory()
+            self.plot(self.i.contours)
+            self.statusbar.showMessage('{}% Herbivory estimated.'.format(round(perc,2)))
         else:
-            if percent == self.perc:
-                self.plot(self.i.cropped)
-            else:
-                self.perc = percent
-                self.i.crop(self.perc)
-                self.plot(self.i.cropped)
+            pass                            
+        #    if percent == self.perc:
+        #        self.plot(self.i.cropped)
+        #    else:
+        #        self.perc = percent
+        #        self.i.crop(self.perc)
+        #        self.plot(self.i.cropped)
         
         
     def export_image(self):
@@ -307,7 +322,7 @@ class DesignerMainWindow(QtWidgets.QMainWindow, Ui_MainWindow, Data):
     def run_export_leaf(self):
         """runs process for all images of directory and exports into output directory"""
         self.statusbar.showMessage('Export is running...')
-
+        
         # list of images
         path = self.lineEditDirInLeaf.text() + '/*.*'
         paths = glob.glob(path)
@@ -332,7 +347,7 @@ class DesignerMainWindow(QtWidgets.QMainWindow, Ui_MainWindow, Data):
                 value = self.i.herbivory()
             except:
                 self.statusbar.showMessage("ERROR: Images in import directory not found. Try again.")
-                    
+            
             if self.cbMaskDir.isChecked() == True:
                 folder = outputdir + "masks/"
                 os.makedirs(folder, exist_ok= True)
