@@ -7,8 +7,8 @@ This programm should calculated the percentage of area missing due to Herbivory 
 * a graphical user interface with 
   * an area for plotting and exploring the implemented filter on to one image
   * the possibility to provide an directory with images that should all be processed
-  * calculation of the herbivory damage percentage
-  * images of the steps of the process
+* calculation of the herbivory damage percentage
+* images of the steps of the process
 
 ## How the software filter work:
 
